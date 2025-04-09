@@ -1,6 +1,6 @@
 {
     "name": "backstage/table-filters",
-    "description": "This is my package table-filters",
+    "description": "A Backstage package for filtering tables in Filament.",
     "keywords": [
         "Backstage",
         "laravel",
