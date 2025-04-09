@@ -6,9 +6,6 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/backstage/table-filters.svg?style=flat-square)](https://packagist.org/packages/backstage/table-filters)
 
 
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
 ## Installation
 
 You can install the package via composer:
@@ -19,7 +16,7 @@ composer require backstage/table-filters
 
 ## Usage
 
-In youre ``ListRecords`` resource page, add te following trait:
+In your ``ListRecords`` resource page, add te following trait:
 ```php
 use Backstage\TableFilters\Concerns\HasFileBasedTableFilters;
 
