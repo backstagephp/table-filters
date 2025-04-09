@@ -2,16 +2,15 @@
 
 namespace Backstage\TableFilters;
 
-use Filament\Tables\Table;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Cache;
-use Spatie\LaravelPackageTools\Package;
-use Livewire\Features\SupportTesting\Testable;
-use Backstage\TableFilters\Testing\TestsTableFilters;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Backstage\TableFilters\Commands\TableFiltersCommand;
-use Filament\Resources\RelationManagers\RelationManager;
+use Backstage\TableFilters\Testing\TestsTableFilters;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
+use Livewire\Features\SupportTesting\Testable;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class TableFiltersServiceProvider extends PackageServiceProvider
 {
@@ -49,7 +48,6 @@ class TableFiltersServiceProvider extends PackageServiceProvider
     {
         // Testing
         Testable::mixin(new TestsTableFilters);
-
 
         Table::macro('withFileBasedFilters', function () {
             $baseFilters = $this->getFilters();
@@ -90,18 +88,18 @@ class TableFiltersServiceProvider extends PackageServiceProvider
             $filterPath = app_path(str($filterNamespace)->after('App\\')->replace('\\', '/')->toString());
 
             $filterClassNames = collect(File::files($filterPath))
-                ->map(fn($file) => $filterNamespace . '\\' . $file->getFilenameWithoutExtension())
-                ->filter(fn($class) => class_exists($class))
+                ->map(fn ($file) => $filterNamespace . '\\' . $file->getFilenameWithoutExtension())
+                ->filter(fn ($class) => class_exists($class))
                 ->values()
                 ->toArray();
 
             $filterClasses = app()->environment('production')
-                ? Cache::rememberForever($cacheKey, fn() => $filterClassNames)
+                ? Cache::rememberForever($cacheKey, fn () => $filterClassNames)
                 : $filterClassNames;
 
             $fileBasedFilters = collect($filterClasses)
-                ->filter(fn($class) => class_exists($class))
-                ->map(fn($class) => $class::make($class)->name(
+                ->filter(fn ($class) => class_exists($class))
+                ->map(fn ($class) => $class::make($class)->name(
                     str($class)->afterLast('\\')->before('Filter')->kebab()->toString()
                 ))
                 ->toArray();
