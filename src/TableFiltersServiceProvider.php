@@ -11,6 +11,7 @@ use Backstage\TableFilters\Testing\TestsTableFilters;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Backstage\TableFilters\Commands\TableFiltersCommand;
+use Filament\Resources\RelationManagers\RelationManager;
 
 class TableFiltersServiceProvider extends PackageServiceProvider
 {
@@ -53,7 +54,36 @@ class TableFiltersServiceProvider extends PackageServiceProvider
         Table::macro('withFileBasedFilters', function () {
             $baseFilters = $this->getFilters();
 
-            $resource = $this->getLivewire()->getResource();
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
+
+            $callerFile = collect($trace)
+                ->map(fn($trace) => $trace['file'] ?? null)
+                ->filter()
+                ->filter(fn($file) => preg_match('#.*/Resources/([A-Za-z0-9]+)Resource\.php$#', $file))
+                ->first();
+
+            if (! $callerFile) {
+                return $this->filters($baseFilters);
+            }
+            
+            $namespace = str($callerFile)
+                ->after('app/')
+                ->beforeLast('/')
+                ->replace('/', '\\')
+                ->prepend('App\\')
+                ->toString();
+
+            $className = str($callerFile)
+                ->afterLast('/')
+                ->before('.php')
+                ->replace('/', '\\')
+                ->toString();
+
+            $resource = str($namespace)
+                ->append('\\')
+                ->append($className)
+                ->toString();
+
             $cacheKey = 'table_filters_' . str($resource)->afterLast('\\')->snake()->toString();
 
             $filterNamespace = str($resource)->append('\\Filters')->toString();
