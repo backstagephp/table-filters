@@ -2,12 +2,15 @@
 
 namespace Backstage\TableFilters;
 
-use Backstage\TableFilters\Commands\TableFiltersCommand;
-use Backstage\TableFilters\Testing\TestsTableFilters;
-use Livewire\Features\SupportTesting\Testable;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 use Spatie\LaravelPackageTools\Package;
+use Livewire\Features\SupportTesting\Testable;
+use Backstage\TableFilters\Testing\TestsTableFilters;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Backstage\TableFilters\Commands\TableFiltersCommand;
 
 class TableFiltersServiceProvider extends PackageServiceProvider
 {
@@ -45,6 +48,38 @@ class TableFiltersServiceProvider extends PackageServiceProvider
     {
         // Testing
         Testable::mixin(new TestsTableFilters);
+
+
+        Table::macro('withFileBasedFilters', function () {
+            $baseFilters = $this->getFilters();
+
+            $resource = $this->getLivewire()->getResource();
+            $cacheKey = 'table_filters_' . str($resource)->afterLast('\\')->snake()->toString();
+
+            $filterNamespace = str($resource)->append('\\Filters')->toString();
+            $filterPath = app_path(str($filterNamespace)->after('App\\')->replace('\\', '/')->toString());
+
+            $filterClassNames = collect(File::files($filterPath))
+                ->map(fn($file) => $filterNamespace . '\\' . $file->getFilenameWithoutExtension())
+                ->filter(fn($class) => class_exists($class))
+                ->values()
+                ->toArray();
+
+            $filterClasses = app()->environment('production')
+                ? Cache::rememberForever($cacheKey, fn() => $filterClassNames)
+                : $filterClassNames;
+
+            $fileBasedFilters = collect($filterClasses)
+                ->filter(fn($class) => class_exists($class))
+                ->map(fn($class) => $class::make($class)->name(
+                    str($class)->afterLast('\\')->before('Filter')->kebab()->toString()
+                ))
+                ->toArray();
+
+            $filters = array_merge($baseFilters, $fileBasedFilters);
+
+            return $this->filters($filters);
+        });
     }
 
     protected function getAssetPackageName(): ?string

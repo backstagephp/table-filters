@@ -26,13 +26,12 @@ composer require backstage/table-filters
 
 ## Usage
 
-In your ``ListRecords`` resource page, add te following trait:
+In your resource, add te following method at the end of your table:
 ```php
-use Backstage\TableFilters\Concerns\HasFileBasedTableFilters;
-
-class ListUsers extends ListRecords
+public static function table(Table $table): Table
 {
-    use HasFileBasedTableFilters;
+    return $table
+        ->withFileBasedFilters();
 }
 ```
 
