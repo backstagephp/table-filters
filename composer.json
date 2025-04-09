@@ -1,15 +1,15 @@
 {
     "name": "backstage/table-filters",
-    "description": "A Backstage package for filtering tables in Filament.",
+    "description": "A Backstage package for filtering tables in Backstage.",
     "keywords": [
         "Backstage",
         "laravel",
         "table-filters"
     ],
-    "homepage": "https://github.com/backstage/table-filters",
+    "homepage": "https://github.com/backstagephp/table-filters",
     "support": {
-        "issues": "https://github.com/backstage/table-filters/issues",
-        "source": "https://github.com/backstage/table-filters"
+        "issues": "https://github.com/backstagephp/table-filters/issues",
+        "source": "https://github.com/backstagephp/table-filters"
     },
     "license": "MIT",
     "authors": [
