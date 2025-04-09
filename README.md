@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/backstage/table-filters/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/backstage/table-filters/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/backstage/table-filters.svg?style=flat-square)](https://packagist.org/packages/backstage/table-filters)
 
-## Nice to meet you, we're [Backstage](https://Backstage.nl)
+## Nice to meet you, we're [Backstage](https://backstagephp.com)
 
 Hi! We are a web development agency from Nijmegen in the Netherlands and we use Laravel for everything: advanced websites with a lot of bells and whitles and large web applications.
 
