@@ -101,7 +101,7 @@ class TableFiltersCommand extends Command
             ->append('\\Filters')
             ->toString();
 
-        $sub = base_path('stubs/Filter.php.stub');
+        $sub = base_path('vendor/backstage/table-filters/stubs/Filter.php.stub');
 
         $stub = File::get($sub);
 

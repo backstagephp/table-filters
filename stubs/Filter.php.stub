@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ filterNamespace }};
+
+class {{ class }} extends {{ filterClass }}
+{
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
+}
