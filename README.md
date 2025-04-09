@@ -1,4 +1,4 @@
-# This is my package table-filters
+## Backstage Table Filters
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/backstage/table-filters.svg?style=flat-square)](https://packagist.org/packages/backstage/table-filters)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/backstage/table-filters/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/backstage/table-filters/actions?query=workflow%3Arun-tests+branch%3Amain)
@@ -17,37 +17,21 @@ You can install the package via composer:
 composer require backstage/table-filters
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="table-filters-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="table-filters-config"
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="table-filters-views"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
 ## Usage
 
+In youre ``ListRecords`` resource page, add te following trait:
 ```php
-$tableFilters = new Backstage\TableFilters();
-echo $tableFilters->echoPhrase('Hello, Backstage!');
+use Backstage\TableFilters\Concerns\HasFileBasedTableFilters;
+
+class ListUsers extends ListRecords
+{
+    use HasFileBasedTableFilters;
+}
+```
+
+Now if you want to create a file-based Filament Table Filter, please execute the following command:
+```php
+php artisan make:filament-filter
 ```
 
 ## Testing
