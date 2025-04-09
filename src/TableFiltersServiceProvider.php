@@ -55,15 +55,15 @@ class TableFiltersServiceProvider extends PackageServiceProvider
             $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
 
             $callerFile = collect($trace)
-                ->map(fn($trace) => $trace['file'] ?? null)
+                ->map(fn ($trace) => $trace['file'] ?? null)
                 ->filter()
-                ->filter(fn($file) => preg_match('#.*/Resources/([A-Za-z0-9]+)Resource\.php$#', $file))
+                ->filter(fn ($file) => preg_match('#.*/Resources/([A-Za-z0-9]+)Resource\.php$#', $file))
                 ->first();
 
             if (! $callerFile) {
                 return $this->filters($baseFilters);
             }
-            
+
             $namespace = str($callerFile)
                 ->after('app/')
                 ->beforeLast('/')
