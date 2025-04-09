@@ -24,7 +24,7 @@ class TableFiltersCommand extends Command
 
     public $signature = 'make:filament-filter {name?} {--R|resource=} {--T|type=} {--panel=} {--F|force}';
 
-    public $description  = 'Create a new Filament filter class';
+    public $description = 'Create a new Filament filter class';
 
     public function handle()
     {
@@ -41,7 +41,7 @@ class TableFiltersCommand extends Command
             ->trim(' ')
             ->replace('/', '\\');
 
-        if (!str($filter)->endsWith('Filter')) {
+        if (! str($filter)->endsWith('Filter')) {
             $filter = str($filter)->append('Filter');
         }
 
@@ -60,7 +60,7 @@ class TableFiltersCommand extends Command
             $panel = (count($panels) > 1) ? $panels[select(
                 label: 'Which panel would you like to create this in?',
                 options: array_map(
-                    fn(Panel $panel): string => $panel->getId(),
+                    fn (Panel $panel): string => $panel->getId(),
                     $panels,
                 ),
                 default: Filament::getDefaultPanel()->getId()
@@ -83,9 +83,9 @@ class TableFiltersCommand extends Command
         $resourceInput = $this->option('resource') ?? suggest(
             label: 'Which resource would you like to create this in?',
             options: collect($panel->getResources())
-                ->filter(fn(string $namespace): bool => str($namespace)->contains('\\Resources\\') && str($namespace)->startsWith($resourceNamespaces))
+                ->filter(fn (string $namespace): bool => str($namespace)->contains('\\Resources\\') && str($namespace)->startsWith($resourceNamespaces))
                 ->map(
-                    fn(string $namespace): string => (string) str($namespace)
+                    fn (string $namespace): string => (string) str($namespace)
                         ->afterLast('\\Resources\\')
                 )
                 ->all(),
@@ -175,7 +175,7 @@ class TableFiltersCommand extends Command
 
         File::put($filterFilePath, $stub);
 
-        $this->components->info("Filter created successfully!");
+        $this->components->info('Filter created successfully!');
 
         $this->components->info("Filter path: {$filterFilePath}");
 

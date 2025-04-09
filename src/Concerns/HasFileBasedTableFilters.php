@@ -38,12 +38,12 @@ trait HasFileBasedTableFilters
         $cacheKey = $this->getFilterCacheKey($resource);
 
         $filterClasses = app()->environment('production')
-            ? Cache::rememberForever($cacheKey, fn() => $this->resolveFilterClassNames($resource))
+            ? Cache::rememberForever($cacheKey, fn () => $this->resolveFilterClassNames($resource))
             : $this->resolveFilterClassNames($resource);
 
         return collect($filterClasses)
-            ->filter(fn($class) => class_exists($class))
-            ->map(fn($class) => $class::make($class)->name(
+            ->filter(fn ($class) => class_exists($class))
+            ->map(fn ($class) => $class::make($class)->name(
                 str($class)->afterLast('\\')->before('Filter')->kebab()->toString()
             ))
             ->toArray();
@@ -66,8 +66,8 @@ trait HasFileBasedTableFilters
         $filterPath = app_path(str($filterNamespace)->after('App\\')->replace('\\', '/')->toString());
 
         return collect(File::files($filterPath))
-            ->map(fn($file) => $filterNamespace . '\\' . $file->getFilenameWithoutExtension())
-            ->filter(fn($class) => class_exists($class))
+            ->map(fn ($file) => $filterNamespace . '\\' . $file->getFilenameWithoutExtension())
+            ->filter(fn ($class) => class_exists($class))
             ->values()
             ->toArray();
     }

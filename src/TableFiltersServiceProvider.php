@@ -2,19 +2,12 @@
 
 namespace Backstage\TableFilters;
 
-use Filament\Support\Assets\AlpineComponent;
-use Filament\Support\Assets\Asset;
-use Filament\Support\Assets\Css;
-use Filament\Support\Assets\Js;
-use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Facades\FilamentIcon;
-use Illuminate\Filesystem\Filesystem;
+use Backstage\TableFilters\Commands\TableFiltersCommand;
+use Backstage\TableFilters\Testing\TestsTableFilters;
 use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Backstage\TableFilters\Commands\TableFiltersCommand;
-use Backstage\TableFilters\Testing\TestsTableFilters;
 
 class TableFiltersServiceProvider extends PackageServiceProvider
 {
@@ -58,7 +51,6 @@ class TableFiltersServiceProvider extends PackageServiceProvider
     {
         return 'backstage/table-filters';
     }
-
 
     /**
      * @return array<class-string>
