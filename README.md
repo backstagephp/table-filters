@@ -26,7 +26,7 @@ composer require backstage/table-filters
 
 ## Usage
 
-In your resource, add te following method at the end of your table:
+In your resource, add the following method at the end of your table:
 ```php
 public static function table(Table $table): Table
 {
